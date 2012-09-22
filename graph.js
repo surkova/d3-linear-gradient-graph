@@ -4,10 +4,10 @@
   $(function() {
     'use strict';
 
-    var beginning, color, dataset, drawAxes, drawGraph, end, events, format, h, index, padding, r, svg, timestamps, travelTimes, ts, w, x, y;
+    var beginning, color, dataset, drawAxes, drawGraph, end, events, format, h, index, padding, svg, timestamps, travelTimes, ts, w, x, y;
     timestamps = ['02:11:00', '02:11:02', '02:11:04', '02:11:06', '02:11:08', '02:11:10', '02:11:12', '02:11:14', '02:11:16', '02:11:18'];
     events = [10, 15, 134, 23, 56, 33, 16, 34, 56, 23];
-    travelTimes = [2, 13, 35, 5, 30, 1, 10, 15, 22, 4];
+    travelTimes = [2, 13, 35, 8, 30, 1, 40, 15, 22, 4];
     dataset = [];
     dataset = (function() {
       var _i, _len, _results;
@@ -27,8 +27,7 @@
     end = format.parse(timestamps[9]);
     x = d3.time.scale().domain([beginning, end]).range([padding, w - padding / 2]);
     y = d3.scale.linear().domain([0, d3.max(events) + padding / 2]).range([h - padding, padding / 2]);
-    r = d3.scale.sqrt().domain([d3.min(travelTimes), d3.max(travelTimes)]).range([8, 16]);
-    color = d3.scale.linear().domain([d3.min(travelTimes), d3.max(travelTimes)]).range(['white', 'black']);
+    color = d3.scale.linear().domain([d3.min(travelTimes), d3.max(travelTimes)]).range(['#C3FF68', '#FF4040']);
     drawAxes = function() {
       var xAxis, yAxis;
       xAxis = d3.svg.axis().scale(x).orient('bottom').ticks(d3.time.seconds, 2);
@@ -50,7 +49,7 @@
       }).interpolate('monotone');
       defs = svg.append('svg:defs');
       offset = -100 / (dataset.length - 1);
-      defs.append('svg:linearGradient').attr('id', 'gradient').selectAll('stop').data(dataset).enter().append('stop').attr('offset', function(d) {
+      defs.append('svg:linearGradient').attr('id', 'gradient').selectAll('.colorStop').data(dataset).enter().append('stop').attr('class', 'colorStop').attr('offset', function(d) {
         offset += 100 / (dataset.length - 1);
         return offset + '%';
       }).style('stop-color', function(d) {
